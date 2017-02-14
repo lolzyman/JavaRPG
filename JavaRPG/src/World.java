@@ -13,6 +13,8 @@ public class World extends JPanel implements ActionListener, KeyListener
 {
     Timer t = new Timer(5, this);  //Call Action Listener every 5 seconds
     
+    int[][] keysDown = new int[200][10];
+    int lastKey;
     int x = 0;                     //x position
     int y = 0;                     //y position
     int velx = 0;               //Velocity in x direction
@@ -79,6 +81,27 @@ public class World extends JPanel implements ActionListener, KeyListener
         }
     }
     
+    public void updateMovement(int keyCode){
+    	switch(keyCode){
+    	//left key
+    	case 37:
+    		velx = 1;
+    		break;
+    	//up key
+    	case 38:
+    		vely = 1;
+    		break;
+    	//right key
+    	case 39:
+    		velx = -1;
+    		break;
+    	//down key
+    	case 40:
+    		vely = -1;
+    		break;
+    		
+    	}
+    }
     public void up()
     {
         vely = 1;
@@ -108,7 +131,10 @@ public class World extends JPanel implements ActionListener, KeyListener
     public void keyPressed(KeyEvent e)
     {
         int code = e.getKeyCode();
-        
+        keysDown[code][0] = 1;
+        lastKey = code;
+        updateMovement(code);
+        /*
         if(code == KeyEvent.VK_UP)
         {
             up();
@@ -128,6 +154,7 @@ public class World extends JPanel implements ActionListener, KeyListener
         {
             right();
         }
+        */
     }
     
     public void keyTyped(KeyEvent e)
@@ -136,7 +163,31 @@ public class World extends JPanel implements ActionListener, KeyListener
     
     public void keyReleased(KeyEvent e)
     {
-        velx = 0;
-        vely = 0;
+    	int code = e.getKeyCode();
+    	keysDown[code][0] = 1;
+    	
+    	if(lastKey == code){
+    		lastKey = -1;
+    	}
+    	
+    	switch(code){
+    	//left key
+    	case 37:
+    		velx = 0;
+    		break;
+    	//up key
+    	case 38:
+    		vely = 0;
+    		break;
+    	//right key
+    	case 39:
+    		velx = 0;
+    		break;
+    	//down key
+    	case 40:
+    		vely = 0;
+    		break;
+    		
+    	}
     }
-    }
+}

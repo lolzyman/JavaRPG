@@ -9,7 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class moveImageDemo extends JPanel implements ActionListener, KeyListener
+public class World extends JPanel implements ActionListener, KeyListener
 {
     Timer t = new Timer(5, this);  //Call Action Listener every 5 seconds
     
@@ -21,7 +21,7 @@ public class moveImageDemo extends JPanel implements ActionListener, KeyListener
     private BufferedImage image;
     
     //Constructor
-    public moveImageDemo()
+    public World()
     {
         t.start();                              //Start Timer
         addKeyListener(this);                   //Add key listener to JPanal

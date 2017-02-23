@@ -9,6 +9,7 @@ public class MainClass
         f.add(s);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setSize(500, 500);
+        f.setSize(512, 512);
+        f.setResizable(false);
     }
 }

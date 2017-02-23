@@ -1,27 +1,19 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.*;
-
+import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class World extends JPanel implements ActionListener, KeyListener
 {
     Timer t = new Timer(5, this);  //Call Action Listener every 5 seconds
     
     int[][] keysDown = new int[200][10];
     int lastKey;
-    int x = 0;                     //x position
-    int y = 0;                     //y position
-    int velx = 0;               //Velocity in x direction
-    int vely = 0;               //Velocity in y direction
     
-    private BufferedImage image;
-    
+    BackgroundImage back = new BackgroundImage();
+    Character me = new Character(218,218);
     //Constructor
     public World()
     {
@@ -30,16 +22,6 @@ public class World extends JPanel implements ActionListener, KeyListener
         setFocusable(true);                     //Sets focus to this (to use keyListener)
         setFocusTraversalKeysEnabled(false);
         
-        
-        try
-        {
-            image = ImageIO.read(getClass().getResourceAsStream("CenterCampus.jpg"));
-        }
-        
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
     }
     
     
@@ -53,79 +35,55 @@ public class World extends JPanel implements ActionListener, KeyListener
     public void paint(Graphics g)
     {
     	super.paint(g);
-        g.drawImage(image, x, y, null);
+    	setBackground(Color.RED);
+        g.drawImage(back.getImage(), back.getX(), back.getY(), null);
+        g.drawImage(me.getImage(),me.getX(),me.getY(),null);
     }
     
     public void actionPerformed(ActionEvent e)
     {
         repaint();
-        x += velx;
-        y += vely;
-        
-        if (x < -480)
-        {
-            x = -480;
-        }
-        else if (x > 20)
-        {
-            x = 20;
-        }
-        
-        if (y < -230)
-        {
-            y = -230;
-        }
-        else if (y > 20)
-        {
-            y = 20;
-        }
+        back.updatePosition();
     }
     
     public void updateMovement(int keyCode){
     	switch(keyCode){
     	//left key
     	case 37:
-    		velx = 1;
-    		break;
+    		if(back.isMoving()){
+    			back.setXque(1);
+    		}else{
+    			back.setVelx(1);
+    			back.setMoving(true);
+    		}
     	//up key
     	case 38:
-    		vely = 1;
+    		if(back.isMoving()){
+    			back.setYque(1);
+    		}else{
+    			back.setVely(1);
+    			back.setMoving(true);
+    		}
     		break;
     	//right key
     	case 39:
-    		velx = -1;
-    		break;
+    		if(back.isMoving()){
+    			back.setXque(-1);
+    		}else{
+    			back.setVelx(-1);
+    			back.setMoving(true);
+    		}
     	//down key
     	case 40:
-    		vely = -1;
+    		if(back.isMoving()){
+    			back.setYque(-1);
+    		}else{
+    			back.setVely(-1);
+    			back.setMoving(true);
+    		}
     		break;
     		
     	}
-    }
-    public void up()
-    {
-        vely = 1;
-        velx = 0;
-        
-    }
-    
-    public void down()
-    {
-        vely = -1;
-        velx = 0;
-    }
-    
-    public void left()
-    {
-        velx = 1;
-        vely = 0;
-    }
-    
-    public void right()
-    {
-        velx = -1;
-        vely = 0;
-        
     }
     
     public void keyPressed(KeyEvent e)
@@ -134,27 +92,7 @@ public class World extends JPanel implements ActionListener, KeyListener
         keysDown[code][0] = 1;
         lastKey = code;
         updateMovement(code);
-        /*
-        if(code == KeyEvent.VK_UP)
-        {
-            up();
-        }
-        
-        if(code == KeyEvent.VK_DOWN)
-        {
-            down();
-        }
-        
-        if(code == KeyEvent.VK_LEFT)
-        {
-            left();
-        }
-        
-        if(code == KeyEvent.VK_RIGHT)
-        {
-            right();
-        }
-        */
+
     }
     
     public void keyTyped(KeyEvent e)
@@ -173,19 +111,35 @@ public class World extends JPanel implements ActionListener, KeyListener
     	switch(code){
     	//left key
     	case 37:
-    		velx = 0;
+    		if(back.isMoving()){
+    			back.setXque(0);
+    		}else{
+    			back.setVelx(0);
+    		}
     		break;
     	//up key
     	case 38:
-    		vely = 0;
+    		if(back.isMoving()){
+    			back.setYque(0);
+    		}else{
+    			back.setVely(0);
+    		}
     		break;
     	//right key
     	case 39:
-    		velx = 0;
+    		if(back.isMoving()){
+    			back.setXque(0);
+    		}else{
+    			back.setVelx(0);
+    		}
     		break;
     	//down key
     	case 40:
-    		vely = 0;
+    		if(back.isMoving()){
+    			back.setYque(0);
+    		}else{
+    			back.setVely(0);
+    		}
     		break;
     		
     	}

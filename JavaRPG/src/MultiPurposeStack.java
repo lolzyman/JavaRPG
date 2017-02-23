@@ -1,14 +1,18 @@
-
 public class MultiPurposeStack {
 
-	
+	/* 
+	 * Variables for the Master of the Stack
+	 * Head is the first node in the stack
+	 * Foot is the last node in the stack
+	 * Head and foot allow the program to use this class as either a stack or a que 
+	 * 
+	 */
 	private Node head, foot;
 	private int length;
 	
 	public MultiPurposeStack(){
 		length = 0;
 	}
-	
 	public boolean isEmpty(){
 		if(length == 0){
 			return true;
@@ -16,7 +20,6 @@ public class MultiPurposeStack {
 			return false;
 		}
 	}
-	
 	public void addBeginning(int value){
 		Node newNode = new Node();
 		newNode.setIntValue(value);
@@ -33,7 +36,22 @@ public class MultiPurposeStack {
 		}
 		length++;
 	}
-	
+	public void addBeginning(String value){
+		Node newNode = new Node();
+		newNode.setStringValue(value);
+		newNode.setParent(null);
+		
+		if(isEmpty()){
+			newNode.setChild(null);
+			head = newNode;
+			foot = newNode;
+		}else{
+			newNode.setChild(head);
+			head.setParent(newNode);
+			head = newNode;
+		}
+		length++;
+	}
 	public void addEnd(int value){
 		Node newNode = new Node();
 		newNode.setIntValue(value);
@@ -50,7 +68,25 @@ public class MultiPurposeStack {
 		}
 		length++;
 	}
-	
+	public void addEnd(String value){
+		Node newNode = new Node();
+		newNode.setStringValue(value);
+		newNode.setChild(null);
+		
+		if(isEmpty()){
+			newNode.setParent(null);
+			head = newNode;
+			foot = newNode;
+		}else{
+			newNode.setParent(foot);
+			foot.setChild(newNode);
+			foot = newNode;
+		}
+		length++;
+	}
+	public int getLength(){
+		return length;
+	}
 	public void deleteEnd(){
 		if(!isEmpty()){
 			if(foot.equals(head)){
@@ -62,7 +98,6 @@ public class MultiPurposeStack {
 			length--;
 		}
 	}
-	
 	public void deleteBeginning(){
 		if(!isEmpty()){
 			if(head.equals(foot)){
@@ -74,7 +109,6 @@ public class MultiPurposeStack {
 			length--;
 		}
 	}
-	
 	public void deleteAt(int index){
 		if(index == 1){
 			head = head.getChild();
@@ -95,8 +129,7 @@ public class MultiPurposeStack {
 		}
 		inQuestion.Destory();
 		length--;
-	}
-	
+	}	
 	//this can probably be written in a better fashion. like with a for loop
 	public void deleteValue(int value){
 		Node inQuestion = head;
@@ -128,11 +161,28 @@ public class MultiPurposeStack {
 		foot = null;
 		length = 0;
 	}
-	/*public void deleteValue(String value){
-		
+	public void deleteValue(String value){
+		Node inQuestion = head;
+		while(!inQuestion.equals(foot)){
+			if(inQuestion.getStringValue() == value){
+				if(inQuestion.equals(head)){
+					head = inQuestion.getChild();
+				}
+				inQuestion.Destory();
+				return;
+			}
+			inQuestion = inQuestion.getChild();
+		}
+		if(inQuestion.getStringValue() == value){
+			foot = inQuestion.getParent();
+			inQuestion.Destory();
+		}
+		length--;
 	}
-	
-	public void deleteValue(double value){
+	public Node getHead(){
+		return head;
+	}
+	/*public void deleteValue(double value){
 		
 	}
 	*/
@@ -143,8 +193,8 @@ class Node{
 	
 	//String stringValue;
 	int intValue;
+	String stringValue;
 	Node child, parent;
-	MultiPurposeStack master;
 	
 	public void Destory(){
 		if(child != null && parent != null){
@@ -152,13 +202,18 @@ class Node{
 			parent.setChild(child);
 		}else if(child != null){
 			child.setParent(null);
-		}else{
+		}else if(parent != null){
 			parent.setChild(null);
 		}
 		child = null;
 		parent = null;
 	}	
-	//getters and setters
+	public String getStringValue() {
+		return stringValue;
+	}
+	public void setStringValue(String stringValue) {
+		this.stringValue = stringValue;
+	}
 	public int getIntValue() {
 		return intValue;
 	}

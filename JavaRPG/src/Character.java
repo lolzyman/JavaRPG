@@ -5,8 +5,8 @@ import javax.imageio.ImageIO;
 
 public class Character {
 
-	int x = 0;                     //x position
-    int y = 0;                     //y position
+	int x = 0;                     //x position relative to the world
+    int y = 0;                     //y position relative to the world
     private BufferedImage image;
 	
 	public int getX() {

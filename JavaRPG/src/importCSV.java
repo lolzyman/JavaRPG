@@ -3,7 +3,6 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class importCSV {
-
 	public static void main(String[] args) {
 		
 		//Comment section used to beta program internally
@@ -11,7 +10,6 @@ public class importCSV {
 		importCSV apple = new importCSV();
 		//
 	}
-	
 	public importCSV(){
 		//From the constructor, calls the import Array for the beta process
 		//Not needed for the main program. The importArray function is public

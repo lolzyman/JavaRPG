@@ -11,9 +11,13 @@ public class MultiPurposeStack {
 	private int length;
 	
 	public MultiPurposeStack(){
+		//initializes the variables for the stack or queue
 		length = 0;
+		head = null;
+		foot = null;
 	}
 	public boolean isEmpty(){
+		//checks to see if the array is empty or not;
 		if(length == 0){
 			return true;
 		}else{
@@ -21,10 +25,13 @@ public class MultiPurposeStack {
 		}
 	}
 	public void addBeginning(int value){
+		//creates a new node and assigns the integer value to the input value
+		//then assigns the parent pointer of the old head to the new node
+		//and changes the head pointer to point to the new node
+		//increases the length of the master class
 		Node newNode = new Node();
 		newNode.setIntValue(value);
 		newNode.setParent(null);
-		
 		if(isEmpty()){
 			newNode.setChild(null);
 			head = newNode;
@@ -37,6 +44,10 @@ public class MultiPurposeStack {
 		length++;
 	}
 	public void addBeginning(String value){
+		//creates a new node and assigns the string value to the input value
+				//then assigns the parent pointer of the old head to the new node
+				//and changes the head pointer to point to the new node
+				//increases the length of the master class
 		Node newNode = new Node();
 		newNode.setStringValue(value);
 		newNode.setParent(null);
@@ -53,6 +64,10 @@ public class MultiPurposeStack {
 		length++;
 	}
 	public void addEnd(int value){
+		//creates a new node and assigns the integer value to the input value
+		//then assigns the child pointer of the old foot to the new node
+		//and changes the foot pointer to point to the new node
+		//increases the length of the master class
 		Node newNode = new Node();
 		newNode.setIntValue(value);
 		newNode.setChild(null);
@@ -69,6 +84,10 @@ public class MultiPurposeStack {
 		length++;
 	}
 	public void addEnd(String value){
+		//creates a new node and assigns the string value to the input value
+		//then assigns the child pointer of the old foot to the new node
+		//and changes the foot pointer to point to the new node
+		//increases the length of the master class
 		Node newNode = new Node();
 		newNode.setStringValue(value);
 		newNode.setChild(null);
@@ -85,9 +104,13 @@ public class MultiPurposeStack {
 		length++;
 	}
 	public int getLength(){
+		//returns the length of the stack or queue
 		return length;
 	}
 	public void deleteEnd(){
+		//reassigns the pointers on the node above and reassigns the present node's pointers to null
+		//has conditions for if there is only one node in the system and if there is no nodes
+		//adjusts the length of the system as well
 		if(!isEmpty()){
 			if(foot.equals(head)){
 				foot.Destory();
@@ -99,6 +122,9 @@ public class MultiPurposeStack {
 		}
 	}
 	public void deleteBeginning(){
+		//reassigns the pointers on the node below and reassigns the current node's pointers to null
+		//has conditions for if there is only one node in the system and if there is no nodes
+		//adjusts the length of the system as well
 		if(!isEmpty()){
 			if(head.equals(foot)){
 				head.Destory();
@@ -110,26 +136,33 @@ public class MultiPurposeStack {
 		}
 	}
 	public void deleteAt(int index){
-		if(index == 1){
-			head = head.getChild();
-			head.getParent().Destory();
-			length--;
-			return;
-		}
-		if(index == length){
-			foot = foot.getParent();
-			foot.getChild().Destory();
-			length--;
-			return;
-		}
+		if(!isEmpty()){
+			if(index == 1){
+				deleteBeginning();
+				return;
+			}
+			if(index == length){
+				deleteEnd();
+				return;
+			}
 		
-		Node inQuestion = head;
-		for(int i = 1; i < index; i++){
-			inQuestion = inQuestion.getChild();
+			Node inQuestion = head;
+			for(int i = 1; i < index; i++){
+				inQuestion = inQuestion.getChild();
+			}
+			inQuestion.Destory();
+			length--;
 		}
-		inQuestion.Destory();
-		length--;
-	}	
+	}
+	public Node getNodeAt(int a){
+		Node que = head;
+		for(int i = 1; i < a; i++){
+			if(que!=foot){
+				que = que.getChild();
+			}
+		}
+		return que;
+	}
 	//this can probably be written in a better fashion. like with a for loop
 	public void deleteValue(int value){
 		Node inQuestion = head;
@@ -190,8 +223,6 @@ public class MultiPurposeStack {
 }
 
 class Node{
-	
-	//String stringValue;
 	int intValue;
 	String stringValue;
 	Node child, parent;
@@ -207,7 +238,8 @@ class Node{
 		}
 		child = null;
 		parent = null;
-	}	
+	}
+	//Setters and Getters*****
 	public String getStringValue() {
 		return stringValue;
 	}
@@ -232,4 +264,5 @@ class Node{
 	public void setParent(Node parent) {
 		this.parent = parent;
 	}
+	//*****//
 }

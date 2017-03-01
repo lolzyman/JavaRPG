@@ -8,12 +8,16 @@ import javax.swing.JPanel;
 public class World extends JPanel implements ActionListener, KeyListener
 {
     Timer t = new Timer(5, this);  //Call Action Listener every 5 seconds
-    
+    int[][] mapGrid;
     int[][] keysDown = new int[200][10];
     int lastKey;
     
     BackgroundImage back = new BackgroundImage();
-    Character me = new Character(218,218);
+    Character me = new Character(0,0);
+    MultiPurposeStack keys = new MultiPurposeStack();
+    LoadMap map = new LoadMap("map1.txt");
+    
+    
     //Constructor
     public World()
     {
@@ -21,17 +25,17 @@ public class World extends JPanel implements ActionListener, KeyListener
         addKeyListener(this);                   //Add key listener to JPanal
         setFocusable(true);                     //Sets focus to this (to use keyListener)
         setFocusTraversalKeysEnabled(false);
-        
+        ImportCSV importer = new ImportCSV();
+        mapGrid = importer.importArray("map1.csv");
+        int[] charPos = map.getCharPos();
+        me = new Character(charPos[0] * 16, charPos[1] * 16);
     }
-    
-    
     /*public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.fill(new Ellipse2D.Double(x,y,40,40));
     }*/
-    
     public void paint(Graphics g)
     {
     	super.paint(g);
@@ -39,13 +43,38 @@ public class World extends JPanel implements ActionListener, KeyListener
         g.drawImage(back.getImage(), back.getX(), back.getY(), null);
         g.drawImage(me.getImage(),me.getX(),me.getY(),null);
     }
-    
     public void actionPerformed(ActionEvent e)
     {
         repaint();
-        back.updatePosition();
+        //back.updatePosition();
+        me.update();
     }
-    
+    public void checkDir(){
+    	int dir = -1;
+    	if(keys.getLength() != 0)
+    	for(int i = keys.getLength(); i > 1; i--){
+    		System.out.print(i + " ");
+    		switch(keys.getNodeAt(i).getIntValue()){
+    		case 37:
+    			dir = 3;
+    			break;
+    		case 38:
+    			dir = 0;
+    			break;
+    		case 39:
+    			dir = 1;
+    			break;
+    		case 40:
+    			dir = 2;
+    			break;
+    		default:
+    			//Irrelevant key code
+    			break;	
+    		}
+    	}
+    	me.setDir(dir);
+    	System.out.println("/n" + dir);
+    }
     public void updateMovement(int keyCode){
     	switch(keyCode){
     	//left key
@@ -85,23 +114,29 @@ public class World extends JPanel implements ActionListener, KeyListener
     		
     	}
     }
-    
     public void keyPressed(KeyEvent e)
     {
         int code = e.getKeyCode();
         keysDown[code][0] = 1;
         lastKey = code;
         updateMovement(code);
-
+        
+        keys.addBeginning(code);
+        System.out.println(e.getKeyCode());
+        checkDir();
     }
-    
     public void keyTyped(KeyEvent e)
     {
-    }
-    
+    }  
     public void keyReleased(KeyEvent e)
     {
     	int code = e.getKeyCode();
+    	
+    	keys.deleteValue(code);
+    	checkDir();
+    	
+    	
+    	
     	keysDown[code][0] = 1;
     	
     	if(lastKey == code){

@@ -3,8 +3,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class BackgroundImage {
-	int x = -62;                     //x position
-    int y = -60;                     //y position
+	int x = 0;                     //x position
+    int y = 0;                     //y position
     int velx = 0;               //Velocity in x direction
     int vely = 0;               //Velocity in y direction
     int dir = 0;
@@ -38,7 +38,7 @@ public class BackgroundImage {
 	void image(){
 		try
         {
-			image = ImageIO.read(getClass().getResourceAsStream("testMap.png"));
+			image = ImageIO.read(getClass().getResourceAsStream("map1.png"));
             character = ImageIO.read(getClass().getResourceAsStream("character.png"));
         }
         

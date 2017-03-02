@@ -166,21 +166,27 @@ public class MultiPurposeStack {
 	//this can probably be written in a better fashion. like with a for loop
 	public void deleteValue(int value){
 		Node inQuestion = head;
+		if(length == 1){
+			purge();
+			return;
+		}
 		while(!inQuestion.equals(foot)){
 			if(inQuestion.getIntValue() == value){
 				if(inQuestion.equals(head)){
 					head = inQuestion.getChild();
 				}
 				inQuestion.Destory();
+				length--;
 				return;
 			}
 			inQuestion = inQuestion.getChild();
 		}
-		if(inQuestion.getIntValue() == value){
+		if(inQuestion.getIntValue() == value && inQuestion.equals(foot)){
 			foot = inQuestion.getParent();
 			inQuestion.Destory();
+			length--;
 		}
-		length--;
+		
 	}
 	public void purge(){
 		Node inQuestion = head, yeh;
@@ -215,10 +221,15 @@ public class MultiPurposeStack {
 	public Node getHead(){
 		return head;
 	}
-	/*public void deleteValue(double value){
-		
+	public void displayValues(){
+		Node inque = head;
+		while(!inque.equals(foot)){
+			System.out.print(head.getIntValue() + ",");
+			inque = head.getChild();
+		}
+		System.out.println(head.getIntValue() + ",");
+		inque = head.getChild();
 	}
-	*/
 	
 }
 

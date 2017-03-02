@@ -5,74 +5,109 @@ import javax.imageio.ImageIO;
 
 public class Character {
 
-	int x = 0;                     //x position relative to the world
-    int y = 0;                     //y position relative to the world
-    int gridx = 0;
-    int gridy = 0;
-    int dir = -1;
-    int buffdir = -1;
-    boolean moving = false;
-    private BufferedImage image;
-    
-    public void maintain(int[][] map){
-    	if(dir == -1){
-    		moving = false;
-    		return;
-    	}
-    	switch(dir){
-    	case 0:
-    		if(map[gridx][gridy - 0] == 0){
-    			moving = true;
-    		}
-    		break;
-    	case 1:
-    		if(map[gridx + 1][gridy] == 0){
-    			moving = true;
-    		}
-    		break;
-    	case 2:
-    		if(map[gridx][gridy + 1] == 0){
-    			moving = true;
-    		}
-    		break;
-    	case 3:
-    		if(map[gridx - 0][gridy] == 0){
-    			moving = true;
-    		}
-    		break;
-    	}
-    }
-    public void update(){
-    	if(moving){
-    		if(((x % 16) + (y % 16)) == 0){
-    			moving = false;
-    			dir = buffdir;
-    			return;
-    		}
-    	}
-    	//System.out.println(dir);
-    	switch(dir){
-    	case 0:
-    		y--;
-    		moving = true;
-    		break;
-    	case 1:
-    		x++;
-    		break;
-    	case 2:
-    		y++;
-    		break;
-    	case 3:
-    		x--;
-    		break;
-    		default:
-    			dir = -1;
-    			break;
-    	}
-    }
-    public void setDir(int i){
-    	dir = i;
-    }
+	private BufferedImage image;
+	int x = 0,
+		y = 0,
+		gridx = 0,
+    	gridy = 0,
+    	buffDir,
+    	dir;
+	int[][] map;
+	boolean canChangeDir = false,
+			inGrid = true;
+	public void updateDir(){
+		//dummy variable to make things readable, will remove when code works.
+		if((x % 16 == 0) && (y % 16 == 0)){
+			inGrid = true;
+			dir = buffDir;
+		}else{
+			inGrid = false;
+		}
+		
+		if(!inGrid){
+			canChangeDir = false;
+		}else{
+			canChangeDir = true;
+		}
+	}
+	public void updateGridPos(){
+		switch(buffDir){
+		case 0:
+			gridy = (int)Math.floor((double)y/16);
+			break;
+		case 1:
+			gridx = (int)Math.ceil((double)x/16);
+			break;
+		case 2:
+			gridy = (int)Math.ceil((double)y/16);
+			break;
+		case 3:
+			gridx = (int)Math.floor((double)x/16);
+			break;
+			default:
+				break;
+		}
+		System.out.println(gridx + ", " + gridy);
+	}
+	public void setMap(int[][] map) {
+		this.map = map;
+	}
+	public void move(){
+		switch(dir){
+		case -1:
+			//Character doesn't move
+			break;
+		case 0:
+			//Character moves upward
+			if(inGrid == false){
+				y--;
+			}else if(isClear() == true){
+				y--;
+			}
+			break;
+		case 1:
+			//Character moves right
+			if(inGrid == false){
+				x++;
+			}else if(isClear() == true){
+				x++;
+			}
+			break;
+		case 2:
+			//Character moves down
+			if(inGrid == false){
+				y++;
+			}else if(isClear() == true){
+				y++;
+			}
+			break;
+		case 3:
+			//Character moves left
+			if(inGrid == false){
+				x--;
+			}else if(isClear() == true){
+				x--;
+			}
+			break;
+		}
+	}
+	public boolean isClear(){
+		switch(dir){
+		case 0:
+			//there is an offset because of the pictures hieght. this needs to be fixed asap.
+			return (map[gridy][gridx] == 0);
+		case 1:
+			return (map[gridy + 1][gridx + 1] == 0);
+		case 2:
+			return (map[gridy + 2][gridx] == 0);
+		case 3:
+			return (map[gridy + 1][gridx - 1] == 0);
+		}
+		return false;
+	}
+	public void setBuffDir(int dir) {
+		this.buffDir = dir;
+	}
     public int getGridx() {
 		return gridx;
 	}

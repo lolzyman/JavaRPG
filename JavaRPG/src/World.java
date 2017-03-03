@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class World extends JPanel implements ActionListener
 {
 	//Dictates the period of the ActionListener
-	int timerSpeed = 5;
+	int timerSpeed = 50;
 	//Defines the timer to call the method ActionPerformed
     Timer t = new Timer(timerSpeed, this);
     //The details grid of the map. As of present, the grid reads [y][x] instead of [x][y]

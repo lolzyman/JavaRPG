@@ -6,30 +6,12 @@ public class BackgroundImage {
 	int x = 0;                     //x position
     int y = 0;                     //y position
 	private BufferedImage image;
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// These methods have nothing todo with the movement of the class.
+	// These methods have nothing to-do with the movement of the class.
 	// The only possible methods are the x and y positions. WE are not moving the map yet so not an issue
 	public BackgroundImage(){
 		image();
 	}
-	public void setImage(BufferedImage image) {
-		this.image = image;
-	}
+	//returns the image for drawing purposes possible to change to a local method
 	public BufferedImage getImage() {
 		return image;
 	}
@@ -44,6 +26,7 @@ public class BackgroundImage {
             e.printStackTrace();
         }
 	}
+	//getters and setters for the x position, mainly used by to be paint
 	public int getX() {
 		return x;
 	}
